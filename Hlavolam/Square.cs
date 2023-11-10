@@ -99,6 +99,8 @@ namespace Hlavolam
         /// <param name="square">Square that will be swapped with the current one</param>
         public void SwapWith(Square square)
         {
+            if(square == this) return;
+
             Square tmp = new Square(square.TopSmiley, square.BottomSmiley, square.LeftSmiley, square.RightSmiley);
 
             square.TopSmiley = this.TopSmiley;

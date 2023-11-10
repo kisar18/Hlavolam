@@ -135,5 +135,77 @@ namespace Hlavolam
                 }
             }
         }
+
+        /// <summary>
+        /// Method that tries to solve the puzzle
+        /// </summary>
+        public void TryToSolveMatrix()
+        {
+            int rowToSolve = 0;
+            int columnToSolve = 0;
+            int numberOfRotations = 4;
+            bool wasSwap = false;
+
+            // Iterating through other squares and checking the puzzle rules
+            for (int k = 0; k < this.rows; k++)
+            {
+                for (int l = 0; l < this.columns; l++)
+                {
+                    // Skipping the first square because it is a starting point
+                    if (k == 0 && l == 0)
+                    {
+                        columnToSolve += 1;
+                        continue;
+                    }
+
+                    // Rotating square, if rules match break the rotations
+                    for (int m = 0; m < numberOfRotations; m++)
+                    {
+                        // Rules for squares in the first row of matrix
+                        if (rowToSolve == 0 && this.matrix[rowToSolve][columnToSolve - 1].IsMyRightMatchingWith(this.matrix[k][l]))
+                        {
+                            this.matrix[rowToSolve][columnToSolve].SwapWith(this.matrix[k][l]);
+                            Console.WriteLine("Swapped row1: " + rowToSolve + " col1: " + columnToSolve + " row2: " + k + " col2: " + l);
+                            columnToSolve += 1;
+                            wasSwap = true;
+                            break;
+                        }
+                        // Rules for squares in the second and third row of matrix
+                        else if ((rowToSolve == 1 || rowToSolve == 2) && columnToSolve == 0 && this.matrix[rowToSolve - 1][columnToSolve].IsMyBottomMatchingWith(this.matrix[k][l]))
+                        {
+                            this.matrix[rowToSolve][columnToSolve].SwapWith(this.matrix[k][l]);
+                            Console.WriteLine("Swapped row1: " + rowToSolve + " col1: " + columnToSolve + " row2: " + k + " col2: " + l);
+                            columnToSolve += 1;
+                            wasSwap = true;
+                            break;
+                        }
+                        else if ((rowToSolve == 1 || rowToSolve == 2) && columnToSolve != 0 && this.matrix[rowToSolve][columnToSolve - 1].IsMyRightMatchingWith(this.matrix[k][l])
+                            && this.matrix[rowToSolve - 1][columnToSolve].IsMyBottomMatchingWith(this.matrix[k][l]))
+                        {
+                            this.matrix[rowToSolve][columnToSolve].SwapWith(this.matrix[k][l]);
+                            Console.WriteLine("Swapped row1: " + rowToSolve + " col1: " + columnToSolve + " row2: " + k + " col2: " + l);
+                            columnToSolve += 1;
+                            wasSwap = true;
+                            break;
+                        }
+
+                        this.matrix[k][l].RotateSquareRight();
+                    }
+
+                    if (columnToSolve == 3)
+                    {
+                        rowToSolve += 1;
+                        columnToSolve = 0;
+                    }
+                    
+                    if(wasSwap)
+                    {
+                        k = rowToSolve;
+                        l = columnToSolve - 1;
+                        wasSwap = false;
+                    }
+                }
+            }
+        }
     }
 }
