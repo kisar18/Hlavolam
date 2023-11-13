@@ -42,13 +42,18 @@ namespace Hlavolam
         public SquareEyesPosition PositionOfTwoEyes { get; set; }
 
         /// <summary>
+        /// Represents the priority of the square when solving the matrix
+        /// </summary>
+        public int Priority { get; set; }
+
+        /// <summary>
         /// Constructor of Square class
         /// </summary>
         /// <param name="topSmiley">Upper half smiley of the square</param>
         /// <param name="bottomSmiley">Bottom half smiley of the square</param>
         /// <param name="leftSmiley">Left half smiley of the square</param>
         /// <param name="rightSmiley">Right half smiley of the square</param>
-        public Square(Smiley topSmiley, Smiley bottomSmiley, Smiley leftSmiley, Smiley rightSmiley)
+        public Square(Smiley topSmiley, Smiley bottomSmiley, Smiley leftSmiley, Smiley rightSmiley, int priority)
         {
             this.TopSmiley = topSmiley;
             this.BottomSmiley = bottomSmiley;
@@ -79,6 +84,8 @@ namespace Hlavolam
 
                 }
             }
+
+            this.Priority = priority;
         }
 
         /// <summary>
@@ -91,6 +98,23 @@ namespace Hlavolam
             this.TopSmiley = this.LeftSmiley;
             this.LeftSmiley = this.BottomSmiley;
             this.BottomSmiley = tmp;
+
+            if(this.PositionOfTwoEyes == SquareEyesPosition.TopLeft)
+            {
+                this.PositionOfTwoEyes = SquareEyesPosition.TopRight;
+            }
+            else if(this.PositionOfTwoEyes == SquareEyesPosition.TopRight)
+            {
+                this.PositionOfTwoEyes = SquareEyesPosition.BottomRight;
+            }
+            else if (this.PositionOfTwoEyes == SquareEyesPosition.BottomRight)
+            {
+                this.PositionOfTwoEyes = SquareEyesPosition.BottomLeft;
+            }
+            else if (this.PositionOfTwoEyes == SquareEyesPosition.BottomLeft)
+            {
+                this.PositionOfTwoEyes = SquareEyesPosition.TopLeft;
+            }
         }
 
         /// <summary>
@@ -101,17 +125,21 @@ namespace Hlavolam
         {
             if(square == this) return;
 
-            Square tmp = new Square(square.TopSmiley, square.BottomSmiley, square.LeftSmiley, square.RightSmiley);
+            Square tmp = new Square(square.TopSmiley, square.BottomSmiley, square.LeftSmiley, square.RightSmiley, square.Priority);
 
             square.TopSmiley = this.TopSmiley;
             square.BottomSmiley = this.BottomSmiley;
             square.LeftSmiley = this.LeftSmiley;
             square.RightSmiley = this.RightSmiley;
+            square.Priority = this.Priority;
+            square.PositionOfTwoEyes = this.PositionOfTwoEyes;
 
             this.TopSmiley = tmp.TopSmiley;
             this.BottomSmiley = tmp.BottomSmiley;
             this.LeftSmiley = tmp.LeftSmiley;
             this.RightSmiley = tmp.RightSmiley;
+            this.Priority = tmp.Priority;
+            this.PositionOfTwoEyes = tmp.PositionOfTwoEyes;
         }
 
         /// <summary>
