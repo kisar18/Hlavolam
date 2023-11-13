@@ -130,3 +130,5 @@ for (int i = matrices.Count / 2; i < matrices.Count; i++)
         }
     }
 }
+
+Console.ReadKey();
