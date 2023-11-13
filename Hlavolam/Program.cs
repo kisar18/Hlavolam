@@ -79,6 +79,7 @@ for (int m = 0; m < inputMatrix.Rows * inputMatrix.Columns * 2; m++)
 }
 
 int numberOfRotations = 4;
+Console.WriteLine("Trying to solve the puzzle from top-left corner");
 
 // Solving matrices from top-left corner
 for (int i = 0; i < matrices.Count / 2; i++)
@@ -105,7 +106,7 @@ for (int i = 0; i < matrices.Count / 2; i++)
     }
 }
 
-
+Console.WriteLine("Trying to solve the puzzle from center square");
 // Solving matrices from center
 for (int i = matrices.Count / 2; i < matrices.Count; i++)
 {
